@@ -4,17 +4,17 @@ import {
     Text
 } from 'react-native'
 
-class Discover extends React.Component {
+class Detail extends React.Component {
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: '发现'
+        headerTitle: '详情'
     })
     render() {
         return (
             <View>
-                <Text>Discover</Text>
+                <Text>Detail</Text>
             </View>
         )
     }
 }
 
-export default Discover;
+export default Detail;

@@ -21,91 +21,78 @@ import {
   FlatList,
   View,
   Text,
-  StatusBar
+  StatusBar,
+  Button
 } from 'react-native';
 
 import Discover from './components/Discover'
+import Mine from './components/Mine'
+import Detail from './components/Detail'
 
-const Home = (props) => {
-  return (
-    <FlatList
-      data={[1,2,1,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,2,3,4,5,6,7,8,9,0]}
-      renderItem={
-        ({item}) => {
-          return <Text>{item}</Text>
-        }
-      }
-    >
-    </FlatList>
-  )
+class Home extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+      headerTitle: '发现'
+  })
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    const { navigation } = this.props
+    return (
+      <View>
+        <Text>Home</Text>
+        <Button
+          title={'goto 发现'}
+          onPress={() =>{
+            navigation.navigate('Discover');
+          }}
+        ></Button>
+        <Button
+          title={'goto Detail'}
+          onPress={() =>{
+            navigation.navigate('Detail');
+          }}
+        ></Button>
+      </View>
+    )
+  }
 }
-
 const Tabs = createBottomTabNavigator({
-  Home: Home,
-  Discover: Discover
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      tabBarLabel: '首页',
+      tabBarIcon: ({tintColor, focused}) => <Icon name="home" size={18} color={tintColor} />
+    }
+  },
+  Discover: {
+    screen: Discover,
+    navigationOptions: {
+      tabBarLabel: '发现',
+      tabBarIcon: ({tintColor, focused}) => <Icon name="th" size={18} color={tintColor} />
+    }
+  },
+  Mine: {
+    screen: Mine,
+    navigationOptions: {
+      tabBarLabel: '我的',
+      tabBarIcon: ({tintColor, focused}) => <Icon name="user-circle" size={18} color={tintColor} />
+    }
+  }
+}, {
+  tabBarOptions: {
+    activeTintColor: '#FF4500'
+  }
 })
-
-
-
-// const App = (props) => {
-//   const [select, setSelect] = useState('home')
-//   return (
-//     <View style={styles.container}>
-//       <TabNavigator>
-//         <TabNavigator.Item
-//           title="首页"
-//           titleStyle={{color:'black'}}
-//           selectedTitleStyle={{color:'red'}}
-//           selected={select === 'home'}
-//           onPress={() => setSelect('home')}
-//           renderIcon={()=> <Icon name="home" size={18} color="#666" /> }
-//           renderSelectedIcon={()=> <Icon name="home" size={18} color="red" /> }
-//         >
-//           <Home></Home>
-//         </TabNavigator.Item>
-//         <TabNavigator.Item
-//           title="发现"
-//           titleStyle={{color:'black'}}
-//           selectedTitleStyle={{color:'red'}}
-//           selected={select === 'find'}
-//           onPress={() => setSelect('find')}
-//           renderIcon={()=> <Icon name="th" size={18} color="#666" /> }
-//           renderSelectedIcon={()=> <Icon name="th" size={18} color="red" /> }
-//         >
-//           <Text>发现</Text>
-//         </TabNavigator.Item>
-//         <TabNavigator.Item
-//           title="我的"
-//           titleStyle={{color:'black'}}
-//           selectedTitleStyle={{color:'red'}}
-//           selected={select === 'mine'}
-//           onPress={() => setSelect('mine')}
-//           renderIcon={()=> <Icon name="user-circle" size={18} color="#666" /> }
-//           renderSelectedIcon={()=> <Icon name="user-circle" size={18} color="red" /> }
-//         >
-//           <Text>我的</Text>
-//         </TabNavigator.Item>
-//       </TabNavigator>
-//     </View>
-//   )
-// }
-
-// const Tabs = () => {
-//   return (
-//     <Tab.Navigator>
-//       <Tab.screen name="Home" component={Home}></Tab.screen>
-//       <Tab.screen name="Discover" component={Discover}></Tab.screen>
-//     </Tab.Navigator>
-//   )
-// }
 
 const AppNavigator = createStackNavigator({
   Home: {
-    screen: Home
+    screen: Tabs
   },
-  Discover: {
-    screen: Discover
-  }
+  Detail: { screen: Detail }
+}, {
+  headerMode: 'screen',
+  mode: 'modal'
 })
 const styles = StyleSheet.create({
   container: {
@@ -115,4 +102,4 @@ const styles = StyleSheet.create({
 
 
 
-export default createAppContainer(Tabs);
+export default createAppContainer(AppNavigator);
